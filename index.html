@@ -22,7 +22,7 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
-      z-index: -1;
+      z-index: -2;
     }
 
     .overlay {
@@ -34,7 +34,8 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      background: linear-gradient(to bottom, rgba(0, 0, 0, 0.9), rgba(100, 100, 100, 0.2));
+      background: linear-gradient(to bottom, rgba(0, 0, 0, 0.9), rgba(180, 180, 180, 0.15));
+      z-index: -1;
     }
 
     .title {
@@ -63,9 +64,14 @@
     <source src="video.mp4" type="video/mp4" />
     Your browser does not support the video tag.
   </video>
+  <audio autoplay loop>
+    <source src="audio.mp3" type="audio/mpeg">
+    Your browser does not support the audio element.
+  </audio>
   <div class="overlay">
     <div class="title">leerebruecke</div>
   </div>
 </body>
 </html>
+
 
