@@ -4,6 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>leerebruecke</title>
+  <link rel="preload" as="video" href="video.mp4" type="video/mp4">
+  <link rel="preload" as="audio" href="audio.mp3" type="audio/mpeg">
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Jacquard+12&display=swap');
 
@@ -35,7 +37,7 @@
       align-items: center;
       justify-content: center;
       background: linear-gradient(to bottom, rgba(0, 0, 0, 0.9), rgba(180, 180, 180, 0.15));
-      z-index: -1;
+      z-index: 0;
     }
 
     .title {
@@ -68,9 +70,9 @@
     <source src="audio.mp3" type="audio/mpeg">
     Your browser does not support the audio element.
   </audio>
-  <div class="overlay">
+  <main class="overlay">
     <div class="title">leerebruecke</div>
-  </div>
+  </main>
 </body>
 </html>
 
