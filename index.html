@@ -13,8 +13,9 @@
       margin: 0;
       padding: 0;
       height: 100%;
-      overflow: hidden;
+      overflow-x: hidden;
       background: black;
+      scroll-behavior: smooth;
     }
 
     .background-video {
@@ -28,11 +29,8 @@
     }
 
     .overlay {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
+      position: relative;
+      height: 100vh;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -45,19 +43,57 @@
       font-size: 4em;
       color: white;
       opacity: 0;
-      animation: fadeIn 5s ease forwards;
+      animation: glitchFade 3s steps(5, end) forwards 1s, flameFlicker 3s infinite 4s;
       text-transform: lowercase;
+      position: relative;
     }
 
-    @keyframes fadeIn {
+    .title::after {
+      content: "";
+      position: absolute;
+      top: -20px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 120%;
+      height: 100%;
+      background: radial-gradient(circle, rgba(0,255,255,0.3) 0%, rgba(0,200,200,0.15) 40%, transparent 80%);
+      filter: blur(12px);
+      animation: flameRise 2s ease-in-out infinite alternate;
+      pointer-events: none;
+      z-index: -1;
+      opacity: 0;
+      animation-delay: 4s;
+      animation-fill-mode: forwards;
+    }
+
+    @keyframes glitchFade {
+      0% { opacity: 0; transform: translate(0); filter: blur(5px); }
+      20% { transform: translate(-5px, 3px); opacity: 0.3; }
+      40% { transform: translate(4px, -2px); opacity: 0.6; }
+      60% { transform: translate(-3px, 2px); opacity: 0.8; }
+      80% { transform: translate(2px, -1px); opacity: 0.95; }
+      100% { opacity: 1; transform: translate(0); filter: blur(0); }
+    }
+
+    @keyframes flameRise {
       0% {
-        opacity: 0;
-        filter: blur(10px);
+        transform: translateX(-50%) translateY(0);
+        opacity: 0.5;
       }
       100% {
+        transform: translateX(-50%) translateY(-10px);
         opacity: 1;
-        filter: blur(0px);
       }
+    }
+
+    @keyframes flameFlicker {
+      0%, 100% { filter: brightness(1); }
+      50% { filter: brightness(1.2); }
+    }
+
+    .dark-descend {
+      height: 100vh;
+      background: black;
     }
   </style>
 </head>
@@ -73,7 +109,7 @@
   <main class="overlay">
     <div class="title">leerebruecke</div>
   </main>
+  <section class="dark-descend"></section>
+  <section class="dark-descend"></section>
 </body>
 </html>
-
-
