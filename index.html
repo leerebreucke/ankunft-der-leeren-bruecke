@@ -14,93 +14,66 @@
       overflow: hidden;
       background-color: #1a1812;
       font-family: 'Jacquard 12', monospace;
+      color: #ccc; /* mildes helles Grau */
     }
 
-    /* GATE */
-    .gate-container {
+    .gate {
       position: absolute;
       top: 0; left: 0;
       width: 100%; height: 100%;
-      background: #0a0a0a;
-      color: #eaeaea;
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      z-index: 10;
+      background: #0a0a0a;
+      z-index: 2;
     }
 
-    .gate-container h1 {
+    .gate h1 {
       font-size: 1.5em;
       margin-bottom: 20px;
-      color: #eaeaea;
+      text-align: center;
     }
 
-    .gate-container button {
+    .gate button {
       background: none;
-      color: #eaeaea;
-      border: 1px solid #eaeaea;
+      color: #ccc;
+      border: 1px solid #ccc;
       padding: 10px 20px;
       margin: 5px;
-      cursor: pointer;
       font-family: inherit;
-      transition: all 0.3s ease;
+      cursor: pointer;
     }
 
-    .gate-container button:hover {
-      background-color: #1a1812;
-      color: #5eefff;
-      border-color: #5eefff;
+    .gate button:hover {
+      background: #1a1812;
+      color: #fff;
+      border-color: #fff;
     }
 
-    /* TITLE */
-    .title-container {
+    .title {
       position: absolute;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      display: flex;
-      gap: 0.1em;
       font-size: 4em;
-      color: #5eefff;
-      opacity: 0;
-    }
-
-    .letter {
-      opacity: 0;
-      animation: flicker 0.8s infinite alternate;
-    }
-
-    .show-title .letter {
-      animation: reveal 0.5s forwards, flicker 0.8s infinite alternate;
-    }
-
-    @keyframes reveal {
-      0% { opacity: 0; transform: translateY(-10px) scale(0.8); }
-      100% { opacity: 1; transform: translateY(0) scale(1); }
-    }
-
-    @keyframes flicker {
-      0% { text-shadow: 0 0 1px #5eefff; }
-      50% { text-shadow: 0 0 4px #5eefff; }
-      100% { text-shadow: 0 0 2px #5eefff; }
+      color: #f0f0f0; /* mildes Weiß */
+      display: none;
+      z-index: 1;
     }
   </style>
 </head>
 <body>
 
   <!-- GATE -->
-  <div class="gate-container" id="gate">
+  <div class="gate" id="gate">
     <h1>Was entsteht, wenn Leere einigen muss?</h1>
     <button onclick="enter()">eine Brücke</button>
     <button onclick="enter()">ein Mythos</button>
   </div>
 
   <!-- TITLE -->
-  <div class="title-container" id="title">
-    <span class="letter">l</span><span class="letter">e</span><span class="letter">e</span><span class="letter">r</span><span class="letter">e</span>
-    <span class="letter">b</span><span class="letter">r</span><span class="letter">u</span><span class="letter">e</span><span class="letter">c</span><span class="letter">k</span><span class="letter">e</span>
-  </div>
+  <div class="title" id="title">leerebruecke</div>
 
   <!-- AUDIO -->
   <audio id="audio" loop>
@@ -110,26 +83,16 @@
 
   <script>
     function enter() {
-      const gate = document.getElementById('gate');
+      document.getElementById('gate').style.display = 'none';
+
       const audio = document.getElementById('audio');
-      const title = document.getElementById('title');
-      
-      gate.style.display = 'none';
       audio.volume = 0.8;
       audio.play();
 
       setTimeout(() => {
-        title.classList.add('show-title');
-        title.style.opacity = 1;
-
-        const letters = title.querySelectorAll('.letter');
-        letters.forEach((el, i) => {
-          const delay = 100 + Math.random() * 1000;
-          setTimeout(() => {
-            el.style.opacity = 1;
-          }, delay);
-        });
-      }, 13710); // 13.71 Sekunden
+        const title = document.getElementById('title');
+        title.style.display = 'block';
+      }, 13710); // nach 13.71 Sekunden
     }
   </script>
 
