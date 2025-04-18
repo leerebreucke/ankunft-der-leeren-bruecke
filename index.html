@@ -1,1 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>leerebruecke</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Jacquard+12&display=swap');
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      overflow: hidden;
+      background: black;
+    }
+
+    .background-video {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: -1;
+    }
+
+    .overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(to bottom, rgba(0, 0, 0, 0.9), rgba(100, 100, 100, 0.2));
+    }
+
+    .title {
+      font-family: 'Jacquard 12', monospace;
+      font-size: 4em;
+      color: white;
+      opacity: 0;
+      animation: fadeIn 5s ease forwards;
+      text-transform: lowercase;
+    }
+
+    @keyframes fadeIn {
+      0% {
+        opacity: 0;
+        filter: blur(10px);
+      }
+      100% {
+        opacity: 1;
+        filter: blur(0px);
+      }
+    }
+  </style>
+</head>
+<body>
+  <video class="background-video" autoplay muted loop>
+    <source src="video.mp4" type="video/mp4" />
+    Your browser does not support the video tag.
+  </video>
+  <div class="overlay">
+    <div class="title">leerebruecke</div>
+  </div>
+</body>
+</html>
 
