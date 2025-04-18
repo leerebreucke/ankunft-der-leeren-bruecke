@@ -25,53 +25,48 @@
       justify-content: center;
       background: linear-gradient(to bottom, rgba(0, 0, 0, 0.9), rgba(0, 60, 60, 0.6));
       z-index: 0;
+      animation: pixelFlicker 4s infinite steps(3, end);
     }
 
     .title {
       font-family: 'Jacquard 12', monospace;
       font-size: 4em;
       color: white;
-      opacity: 0;
-      animation: fadeSlideDown 5s ease forwards;
-      text-transform: lowercase;
       display: inline-block;
-      filter: drop-shadow(0 0 4px #004040);
+      opacity: 0;
     }
 
     .title span {
-  display: inline-block;
-  animation: glowGreen 2s ease-in-out infinite alternate;
-  opacity: 0;
-  animation-delay: calc(var(--i) * 0.1s + 5s);
-  animation-fill-mode: forwards;
-}
+      display: inline-block;
+      opacity: 0;
+      transform: translateY(-40px);
+      animation: appearRandom 0.6s ease-out forwards;
+      animation-play-state: paused;
+      animation-delay: calc(var(--delay) * 1s);
+    }
 
-    @keyframes fadeSlideDown {
-  0% {
-    transform: translateY(-100px) scale(0.9);
-    opacity: 0;
-  }
-  50% {
-    transform: translateY(30px) scale(1.05);
-    opacity: 0.8;
-  }
-  100% {
-    transform: translateY(0) scale(1);
-    opacity: 1;
-  }
-}
+    @keyframes appearRandom {
+      0% {
+        opacity: 0;
+        transform: translateY(-40px);
+        filter: blur(6px);
+      }
       100% {
-        transform: translateY(0);
         opacity: 1;
+        transform: translateY(0);
+        filter: blur(0);
       }
     }
 
-    @keyframes glowGreen {
-      from {
-        text-shadow: 0 0 5px #003333, 0 0 10px #006666;
+    @keyframes pixelFlicker {
+      0% {
+        background: linear-gradient(to bottom, rgba(0, 0, 0, 0.88), rgba(0, 60, 60, 0.6));
       }
-      to {
-        text-shadow: 0 0 10px #00cccc, 0 0 20px #00cccc;
+      50% {
+        background: linear-gradient(to bottom, rgba(0, 10, 10, 0.9), rgba(0, 50, 50, 0.6));
+      }
+      100% {
+        background: linear-gradient(to bottom, rgba(0, 0, 0, 0.88), rgba(0, 60, 60, 0.6));
       }
     }
 
@@ -112,7 +107,19 @@
       cursor: pointer;
       font-family: 'Jacquard 12', monospace;
     }
-  </style>
+      @keyframes glowIgnite {
+      from {
+        text-shadow: none;
+      }
+      to {
+        text-shadow: 0 0 8px #00cccc, 0 0 12px #009999;
+      }
+    }
+
+    .title span.glow {
+      animation: glowIgnite 2s ease-in forwards;
+    }
+</style>
 </head>
 <body>
   <div id="gate">
@@ -123,14 +130,25 @@
     </div>
   </div>
 
-  <audio id="bgaudio">
+  <audio id="bgaudio" loop>
     <source src="audio.mp3" type="audio/mpeg">
     Your browser does not support the audio element.
   </audio>
 
   <main class="overlay">
-    <div class="title">
-      <span style="--i:0">l</span><span style="--i:1">e</span><span style="--i:2">e</span><span style="--i:3">r</span><span style="--i:4">e</span><span style="--i:5">b</span><span style="--i:6">r</span><span style="--i:7">u</span><span style="--i:8">e</span><span style="--i:9">c</span><span style="--i:10">k</span><span style="--i:11">e</span>
+    <div class="title" id="title-text">
+      <span style="--delay: 0.1">l</span>
+      <span style="--delay: 0.3">e</span>
+      <span style="--delay: 0.7">e</span>
+      <span style="--delay: 0.4">r</span>
+      <span style="--delay: 0.2">e</span>
+      <span style="--delay: 0.8">b</span>
+      <span style="--delay: 0.6">r</span>
+      <span style="--delay: 0.9">u</span>
+      <span style="--delay: 0.5">e</span>
+      <span style="--delay: 0.3">c</span>
+      <span style="--delay: 0.6">k</span>
+      <span style="--delay: 1.0">e</span>
     </div>
   </main>
 
@@ -141,8 +159,20 @@
     document.querySelectorAll('.enter-option').forEach(btn => {
       btn.addEventListener('click', () => {
         document.getElementById('gate').style.display = 'none';
-        document.querySelector('.overlay').style.display = 'flex';
-        document.getElementById('bgaudio').play();
+        const overlay = document.querySelector('.overlay');
+        overlay.style.display = 'flex';
+
+        const audio = document.getElementById('bgaudio');
+        audio.play();
+
+        const title = document.getElementById('title-text');
+        setTimeout(() => {
+          title.style.opacity = '1';
+          title.querySelectorAll('span').forEach(span => {
+            span.style.animationPlayState = 'running';
+            span.classList.add('glow');
+          });
+        }, 13710); // 13.71 seconds
       });
     });
   </script>
