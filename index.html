@@ -4,7 +4,6 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>leerebruecke</title>
-  <link rel="preload" as="audio" href="audio.mp3" type="audio/mpeg">
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Jacquard+12&display=swap');
 
@@ -12,167 +11,111 @@
       margin: 0;
       padding: 0;
       height: 100%;
-      overflow-x: hidden;
-      background: black;
-      scroll-behavior: smooth;
-    }
-
-    .overlay {
-      position: relative;
-      height: 100vh;
-      display: none;
-      align-items: center;
-      justify-content: center;
-      background: linear-gradient(to bottom, rgba(0, 0, 0, 0.9), rgba(0, 60, 60, 0.6));
-      z-index: 0;
-      
-    }
-
-    .title {
+      overflow: hidden;
+      background-color: #2b261a;
       font-family: 'Jacquard 12', monospace;
-      font-size: 4em;
-      color: white;
-      display: inline-block;
-      opacity: 0;
     }
 
-    .title span {
-      display: inline-block;
-      opacity: 0;
-      transform: translateY(-40px);
-      animation: appearRandom 0.6s ease-out forwards;
-      animation-play-state: paused;
-      animation-delay: calc(var(--delay) * 1s);
-    }
-
-    @keyframes appearRandom {
-      0% {
-        opacity: 0;
-        transform: translateY(-40px);
-        filter: blur(6px);
-      }
-      100% {
-        opacity: 1;
-        transform: translateY(0);
-        filter: blur(0);
-      }
-    }
-
-    
-      50% {
-        background: linear-gradient(to bottom, rgba(0, 10, 10, 0.9), rgba(0, 50, 50, 0.6));
-      }
-      100% {
-        background: linear-gradient(to bottom, rgba(0, 0, 0, 0.88), rgba(0, 60, 60, 0.6));
-      }
-    }
-
-    .dark-descend {
-      height: 100vh;
-      background: rgba(0, 60, 60, 0.6);
-    }
-
-    #gate {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100vh;
-      background: black;
-      color: white;
-      font-family: 'Jacquard 12', monospace;
-      font-size: 1.5rem;
+    .gate {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: #0a0a0a;
+      color: #eaeaea;
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      z-index: 1000;
+      z-index: 10;
     }
 
-    .gate-buttons {
-      display: flex;
-      gap: 2rem;
-      margin-top: 2rem;
+    .gate h1 {
+      font-size: 1.5em;
+      margin-bottom: 20px;
     }
 
-    .gate-buttons button {
-      padding: 0.5rem 2rem;
+    .gate button {
       background: none;
-      border: 1px solid white;
-      color: white;
-      font-size: 1rem;
+      color: #5eefff;
+      border: 1px solid #5eefff;
+      padding: 10px 20px;
+      margin: 5px;
       cursor: pointer;
-      font-family: 'Jacquard 12', monospace;
-    }
-      @keyframes glowIgnite {
-      from {
-        text-shadow: none;
-      }
-      to {
-        text-shadow: 0 0 8px #00cccc, 0 0 12px #009999;
-      }
+      font-family: inherit;
     }
 
-    .title span.glow {
-      animation: glowIgnite 2s ease-in forwards;
+    .title {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 4em;
+      color: #5eefff;
+      opacity: 0;
+      display: flex;
+      gap: 0.1em;
     }
-</style>
+
+    .letter {
+      opacity: 0;
+      animation: flicker 0.8s infinite alternate;
+    }
+
+    .show-title .letter {
+      animation: reveal 0.5s forwards, flicker 0.8s infinite alternate;
+    }
+
+    @keyframes reveal {
+      0% { opacity: 0; transform: translateY(-10px) scale(0.8); }
+      100% { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    @keyframes flicker {
+      0% { text-shadow: 0 0 1px #5eefff; }
+      50% { text-shadow: 0 0 4px #5eefff; }
+      100% { text-shadow: 0 0 2px #5eefff; }
+    }
+  </style>
 </head>
 <body>
-  <div id="gate">
-    <div>Was entsteht, wenn Leere einigen muss?</div>
-    <div class="gate-buttons">
-      <button class="enter-option" data-answer="bruecke">eine Brücke</button>
-      <button class="enter-option" data-answer="mythos">ein Mythos</button>
-    </div>
+
+  <div class="gate">
+    <h1>Was entsteht, wenn Leere einigen muss?</h1>
+    <button onclick="enter()">eine Brücke</button>
+    <button onclick="enter()">ein Mythos</button>
   </div>
 
-  <audio id="bgaudio" loop volume="0.8">
+  <div class="title" id="title">
+    <!-- Buchstaben einzeln -->
+    <span class="letter">l</span><span class="letter">e</span><span class="letter">e</span><span class="letter">r</span><span class="letter">e</span>
+    <span class="letter">b</span><span class="letter">r</span><span class="letter">u</span><span class="letter">e</span><span class="letter">c</span><span class="letter">k</span><span class="letter">e</span>
+  </div>
+
+  <audio id="audio" loop>
     <source src="audio.mp3" type="audio/mpeg">
-    Your browser does not support the audio element.
+    Dein Browser unterstützt das Audio-Element nicht.
   </audio>
 
-  <main class="overlay">
-    <div class="title" id="title-text">
-      <span style="--delay: 0.1">l</span>
-      <span style="--delay: 0.3">e</span>
-      <span style="--delay: 0.7">e</span>
-      <span style="--delay: 0.4">r</span>
-      <span style="--delay: 0.2">e</span>
-      <span style="--delay: 0.8">b</span>
-      <span style="--delay: 0.6">r</span>
-      <span style="--delay: 0.9">u</span>
-      <span style="--delay: 0.5">e</span>
-      <span style="--delay: 0.3">c</span>
-      <span style="--delay: 0.6">k</span>
-      <span style="--delay: 1.0">e</span>
-    </div>
-  </main>
-
-  <section class="dark-descend"></section>
-  <section class="dark-descend"></section>
-
   <script>
-    document.querySelectorAll('.enter-option').forEach(btn => {
-      btn.addEventListener('click', () => {
-        document.getElementById('gate').style.display = 'none';
-        const overlay = document.querySelector('.overlay');
-        overlay.style.display = 'flex';
+    function enter() {
+      document.querySelector('.gate').style.display = 'none';
+      const audio = document.getElementById('audio');
+      audio.volume = 0.8;
+      audio.play();
 
-        const audio = document.getElementById('bgaudio');
-        audio.volume = 0.8;
-        audio.play();
-
-        const title = document.getElementById('title-text');
-        setTimeout(() => {
-          title.style.opacity = '1';
-          title.querySelectorAll('span').forEach(span => {
-            span.style.animationPlayState = 'running';
-            span.classList.add('glow');
-          });
-        }, 13710); // 13.71 seconds
-      });
-    });
+      setTimeout(() => {
+        const title = document.getElementById('title');
+        title.classList.add('show-title');
+        // Buchstaben verzögert erscheinen lassen
+        const letters = title.querySelectorAll('.letter');
+        letters.forEach((el, i) => {
+          const delay = 100 + Math.random() * 1000;
+          setTimeout(() => {
+            el.style.opacity = 1;
+          }, delay);
+        });
+      }, 13710); // 13.71 Sekunden
+    }
   </script>
 </body>
 </html>
