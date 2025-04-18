@@ -12,11 +12,12 @@
       padding: 0;
       height: 100%;
       overflow: hidden;
-      background-color: #2b261a;
+      background-color: #1a1812;
       font-family: 'Jacquard 12', monospace;
     }
 
-    .gate {
+    /* GATE */
+    .gate-container {
       position: absolute;
       top: 0; left: 0;
       width: 100%; height: 100%;
@@ -29,31 +30,40 @@
       z-index: 10;
     }
 
-    .gate h1 {
+    .gate-container h1 {
       font-size: 1.5em;
       margin-bottom: 20px;
+      color: #eaeaea;
     }
 
-    .gate button {
+    .gate-container button {
       background: none;
-      color: #5eefff;
-      border: 1px solid #5eefff;
+      color: #eaeaea;
+      border: 1px solid #eaeaea;
       padding: 10px 20px;
       margin: 5px;
       cursor: pointer;
       font-family: inherit;
+      transition: all 0.3s ease;
     }
 
-    .title {
+    .gate-container button:hover {
+      background-color: #1a1812;
+      color: #5eefff;
+      border-color: #5eefff;
+    }
+
+    /* TITLE */
+    .title-container {
       position: absolute;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
+      display: flex;
+      gap: 0.1em;
       font-size: 4em;
       color: #5eefff;
       opacity: 0;
-      display: flex;
-      gap: 0.1em;
     }
 
     .letter {
@@ -79,18 +89,20 @@
 </head>
 <body>
 
-  <div class="gate">
+  <!-- GATE -->
+  <div class="gate-container" id="gate">
     <h1>Was entsteht, wenn Leere einigen muss?</h1>
     <button onclick="enter()">eine Brücke</button>
     <button onclick="enter()">ein Mythos</button>
   </div>
 
-  <div class="title" id="title">
-    <!-- Buchstaben einzeln -->
+  <!-- TITLE -->
+  <div class="title-container" id="title">
     <span class="letter">l</span><span class="letter">e</span><span class="letter">e</span><span class="letter">r</span><span class="letter">e</span>
     <span class="letter">b</span><span class="letter">r</span><span class="letter">u</span><span class="letter">e</span><span class="letter">c</span><span class="letter">k</span><span class="letter">e</span>
   </div>
 
+  <!-- AUDIO -->
   <audio id="audio" loop>
     <source src="audio.mp3" type="audio/mpeg">
     Dein Browser unterstützt das Audio-Element nicht.
@@ -98,15 +110,18 @@
 
   <script>
     function enter() {
-      document.querySelector('.gate').style.display = 'none';
+      const gate = document.getElementById('gate');
       const audio = document.getElementById('audio');
+      const title = document.getElementById('title');
+      
+      gate.style.display = 'none';
       audio.volume = 0.8;
       audio.play();
 
       setTimeout(() => {
-        const title = document.getElementById('title');
         title.classList.add('show-title');
-        // Buchstaben verzögert erscheinen lassen
+        title.style.opacity = 1;
+
         const letters = title.querySelectorAll('.letter');
         letters.forEach((el, i) => {
           const delay = 100 + Math.random() * 1000;
@@ -117,5 +132,6 @@
       }, 13710); // 13.71 Sekunden
     }
   </script>
+
 </body>
 </html>
