@@ -1,1 +1,121 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <title>leerebruecke</title>
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            background-color: #1e1b15;
+            overflow: hidden;
+            height: 100%;
+        }
 
+        #canvas {
+            display: block;
+            margin: 0 auto;
+            image-rendering: pixelated;
+        }
+
+        #gate {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-color: #1e1b15;
+            color: white;
+            font-family: 'Jacquard 12', monospace;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+        }
+
+        .answer {
+            margin: 1em;
+            cursor: pointer;
+            font-size: 1.5em;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        #title_static {
+            position: absolute;
+            top: 15%;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.5s;
+            z-index: 2;
+        }
+
+        #title_anim {
+            position: absolute;
+            top: 15%;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            opacity: 0;
+            z-index: 3;
+        }
+    </style>
+</head>
+<body>
+    <div id="gate">
+        <h1>Was entsteht wenn Leere einigen muss?</h1>
+        <div class="answer" onclick="enterSite()">Eine Brücke.</div>
+        <div class="answer" onclick="enterSite()">Ein Mythos.</div>
+    </div>
+
+    <div id="title_static">
+        <img src="bilder/titel_s.png" width="540" />
+    </div>
+
+    <div id="title_anim">
+        <img id="titleAnim" src="animationen/titel_a.webp" width="540" />
+    </div>
+
+    <canvas id="canvas" width="1080" height="1920"></canvas>
+
+    <audio id="intro" src="audio/intro.ogg"></audio>
+    <audio id="loop" src="audio/loop.ogg" loop></audio>
+
+    <script>
+        let canvas = document.getElementById("canvas");
+        let ctx = canvas.getContext("2d");
+        let bgImage = new Image();
+        bgImage.src = "animationen/start_a.webp";
+
+        bgImage.onload = function () {
+            ctx.imageSmoothingEnabled = false;
+            ctx.drawImage(bgImage, 0, 0, canvas.width, canvas.height);
+        };
+
+        function enterSite() {
+            document.getElementById("gate").classList.add("hidden");
+            document.getElementById("intro").play();
+
+            setTimeout(() => {
+                // start loop audio
+                document.getElementById("loop").play();
+                // show title
+                document.getElementById("title_static").style.opacity = 1;
+            }, 15250);
+
+            setInterval(() => {
+                if (Math.random() > 0.6) {
+                    const titleAnim = document.getElementById("title_anim");
+                    titleAnim.style.opacity = 1;
+                    setTimeout(() => {
+                        titleAnim.style.opacity = 0;
+                    }, 600);
+                }
+            }, 3000 + Math.random() * 27000); // alle 3–30 Sekunden
+        }
+    </script>
+</body>
+</html>
