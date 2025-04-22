@@ -4,12 +4,15 @@
     <meta charset="UTF-8">
     <title>leerebruecke</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Jacquard+12&display=swap');
+
         html, body {
             margin: 0;
             padding: 0;
             background-color: #1e1b15;
             overflow: hidden;
             height: 100%;
+            font-family: 'Jacquard 12', cursive;
         }
 
         #canvas {
@@ -24,22 +27,28 @@
             height: 100%;
             background-color: #1e1b15;
             color: white;
-            font-family: 'Jacquard 12', monospace;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             z-index: 100;
+            transition: opacity 0.8s ease;
         }
 
         .answer {
             margin: 1em;
             cursor: pointer;
             font-size: 1.5em;
+            transition: transform 0.2s;
+        }
+
+        .answer:hover {
+            transform: scale(1.05);
         }
 
         .hidden {
-            display: none;
+            opacity: 0;
+            pointer-events: none;
         }
 
         #title_static {
@@ -96,13 +105,12 @@
         };
 
         function enterSite() {
-            document.getElementById("gate").classList.add("hidden");
+            const gate = document.getElementById("gate");
+            gate.classList.add("hidden");
             document.getElementById("intro").play();
 
             setTimeout(() => {
-                // start loop audio
                 document.getElementById("loop").play();
-                // show title
                 document.getElementById("title_static").style.opacity = 1;
             }, 15250);
 
