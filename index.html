@@ -15,14 +15,18 @@
             font-family: 'Jacquard 12', cursive;
         }
 
-        #canvas {
-            display: block;
+        #stage {
+            position: relative;
+            width: 1080px;
+            height: 1920px;
             margin: 0 auto;
             image-rendering: pixelated;
         }
 
         #gate {
             position: absolute;
+            top: 0;
+            left: 0;
             width: 100%;
             height: 100%;
             background-color: #1e1b15;
@@ -51,42 +55,36 @@
             pointer-events: none;
         }
 
-        #title_static {
+        #title_static, #title_anim, #start_anim {
             position: absolute;
-            top: 15%;
-            width: 100%;
-            display: flex;
-            justify-content: center;
+            left: 0;
+            top: 0;
+        }
+
+        #title_static {
+            top: 288px; /* 15% of 1920 */
+            left: 270px; /* center assuming 540px width */
             opacity: 0;
             transition: opacity 0.5s;
             z-index: 2;
         }
 
         #title_anim {
-            position: absolute;
-            top: 15%;
-            width: 100%;
-            display: flex;
-            justify-content: center;
+            top: 288px;
+            left: 270px;
             opacity: 0;
             z-index: 3;
         }
 
         #start_anim {
-            position: absolute;
-            top: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: auto;
-            height: auto;
+            top: 538px; /* 28% of 1920 */
+            left: 0;
             display: none;
             z-index: 1;
         }
 
-        #start_anim img {
-            width: 40vw;
-            max-width: 540px;
-            height: auto;
+        #start_anim img, #title_anim img, #title_static img {
+            width: 540px;
             image-rendering: pixelated;
         }
     </style>
@@ -98,16 +96,18 @@
         <div class="answer" onclick="enterSite()">Ein Mythos.</div>
     </div>
 
-    <div id="title_static">
-        <img src="bilder/titel_s.png" width="540" />
-    </div>
+    <div id="stage">
+        <div id="title_static">
+            <img src="bilder/titel_s.png" width="540" />
+        </div>
 
-    <div id="title_anim">
-        <img id="titleAnim" src="animationen/titel_a.webp" width="540" />
-    </div>
+        <div id="title_anim">
+            <img id="titleAnim" src="animationen/titel_a.webp" width="540" />
+        </div>
 
-    <div id="start_anim">
-        <img id="startAnim" src="animationen/start_a.webp" />
+        <div id="start_anim">
+            <img id="startAnim" src="animationen/start_a.webp" />
+        </div>
     </div>
 
     <audio id="intro" src="audio/intro.ogg"></audio>
@@ -125,15 +125,17 @@
                 document.getElementById("start_anim").style.display = 'block';
             }, 15250);
 
-            setInterval(() => {
-                if (Math.random() > 0.6) {
-                    const titleAnim = document.getElementById("title_anim");
-                    titleAnim.style.opacity = 1;
-                    setTimeout(() => {
-                        titleAnim.style.opacity = 0;
-                    }, 600);
-                }
-            }, 3000 + Math.random() * 27000); // alle 3–30 Sekunden
+            setTimeout(() => {
+                const interval = setInterval(() => {
+                    if (Math.random() > 0.6) {
+                        const titleAnim = document.getElementById("title_anim");
+                        titleAnim.style.opacity = 1;
+                        setTimeout(() => {
+                            titleAnim.style.opacity = 0;
+                        }, 600);
+                    }
+                }, 3000 + Math.random() * 27000);
+            }, 15250); // titel_a erst nach Loopstart
         }
     </script>
 </body>
