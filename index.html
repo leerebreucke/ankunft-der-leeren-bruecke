@@ -82,7 +82,7 @@
         }
 
         #start_anim img {
-            max-width: 50%;
+            max-width: 40%;
             height: auto;
             image-rendering: pixelated;
         }
@@ -120,17 +120,17 @@
                 document.getElementById("loop").play();
                 document.getElementById("title_static").style.opacity = 1;
                 document.getElementById("start_anim").style.display = 'flex';
-            }, 15250);
 
-            setInterval(() => {
-                if (Math.random() > 0.6) {
-                    const titleAnim = document.getElementById("title_anim");
-                    titleAnim.style.opacity = 1;
-                    setTimeout(() => {
-                        titleAnim.style.opacity = 0;
-                    }, 600);
-                }
-            }, 3000 + Math.random() * 27000); // alle 3–30 Sekunden
+                setInterval(() => {
+                    if (Math.random() > 0.6) {
+                        const titleAnim = document.getElementById("title_anim");
+                        titleAnim.style.opacity = 1;
+                        setTimeout(() => {
+                            titleAnim.style.opacity = 0;
+                        }, 600);
+                    }
+                }, 3000 + Math.random() * 27000); // alle 3–30 Sekunden
+            }, 15250);
         }
     </script>
 </body>
