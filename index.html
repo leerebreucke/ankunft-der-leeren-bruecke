@@ -15,6 +15,12 @@
             font-family: 'Jacquard 12', cursive;
         }
 
+        #canvas {
+            display: block;
+            margin: 0 auto;
+            image-rendering: pixelated;
+        }
+
         #gate {
             position: absolute;
             width: 100%;
@@ -32,7 +38,7 @@
         .answer {
             margin: 1em;
             cursor: pointer;
-            font-size: 1.6em;
+            font-size: 2em;
             transition: transform 0.2s;
         }
 
@@ -45,72 +51,79 @@
             pointer-events: none;
         }
 
-        #title_static {
+        #title_static, #title_anim {
             position: absolute;
             top: 15%;
             width: 100%;
             display: flex;
             justify-content: center;
-            opacity: 0;
-            transition: opacity 0.5s;
             z-index: 2;
         }
 
+        #title_static img, #title_anim img {
+            width: 810px;
+            height: auto;
+            image-rendering: pixelated;
+        }
+
         #title_anim {
-            position: absolute;
-            top: 15%;
-            width: 100%;
-            display: flex;
-            justify-content: center;
             opacity: 0;
             z-index: 3;
         }
 
         #start_anim {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            margin: auto;
+            display: none;
+            justify-content: center;
+            align-items: center;
             z-index: 1;
         }
 
         #start_anim img {
-            max-width: 100vw;
-            max-height: 100vh;
             width: auto;
-            height: auto;
+            height: 100vh;
             image-rendering: pixelated;
         }
     </style>
 </head>
 <body>
     <div id="gate">
-        <h1 id="gateText" style="opacity: 0; transition: opacity 0.4s ease;">Was entsteht wenn Leere einigen muss?</h1>
-        <div class="answer" onclick="enterSite()" style="opacity: 0; transition: opacity 0.4s ease;">Eine Brücke.</div>
-        <div class="answer" onclick="enterSite()" style="opacity: 0; transition: opacity 0.4s ease;">Ein Mythos.</div>
+        <h1 id="gate-question" style="opacity: 0; transition: opacity 0.3s ease 0.5s;">Was entsteht wenn Leere einigen muss?</h1>
+        <div class="answer" onclick="enterSite()">Eine Brücke.</div>
+        <div class="answer" onclick="enterSite()">Ein Mythos.</div>
     </div>
 
     <div id="title_static">
-        <img src="bilder/titel_s.png" width="540" />
+        <img src="bilder/titel_s.png" />
     </div>
 
     <div id="title_anim">
-        <img id="titleAnim" src="animationen/titel_a.webp" width="540" />
+        <img id="titleAnim" src="animationen/titel_a.webp" />
     </div>
 
-    <div id="start_anim" style="display: none;">
+    <div id="start_anim">
         <img id="startAnim" src="animationen/start_a.webp" />
     </div>
 
-    <audio id="intro" src="audio/intro.ogg"></audio>
-    <audio id="loop" src="audio/loop.ogg" loop></audio>
+    <audio id="intro" preload="auto">
+        <source src="audio/intro.ogg" type="audio/ogg">
+        <source src="audio/intro.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="loop" preload="auto" loop>
+        <source src="audio/loop.ogg" type="audio/ogg">
+        <source src="audio/loop.mp3" type="audio/mpeg">
+    </audio>
 
     <script>
         window.onload = () => {
             setTimeout(() => {
-                document.querySelector('#gate h1').style.opacity = 1;
-                document.querySelectorAll('.answer').forEach(btn => btn.style.opacity = 1);
-            }, 500); // Verzögerung zur Schriftart-Ladung
+                document.getElementById("gate-question").style.opacity = 1;
+            }, 200);
         }
 
         function enterSite() {
@@ -132,7 +145,7 @@
                         titleAnim.style.opacity = 0;
                     }, 600);
                 }
-            }, 3000 + Math.random() * 27000); // alle 3–30 Sekunden
+            }, 3000 + Math.random() * 27000);
         }
     </script>
 </body>
