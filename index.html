@@ -15,18 +15,8 @@
             font-family: 'Jacquard 12', cursive;
         }
 
-        #stage {
-            position: relative;
-            width: 1080px;
-            height: 1920px;
-            margin: 0 auto;
-            image-rendering: pixelated;
-        }
-
         #gate {
             position: absolute;
-            top: 0;
-            left: 0;
             width: 100%;
             height: 100%;
             background-color: #1e1b15;
@@ -42,7 +32,7 @@
         .answer {
             margin: 1em;
             cursor: pointer;
-            font-size: 1.5em;
+            font-size: 1.6em;
             transition: transform 0.2s;
         }
 
@@ -55,65 +45,74 @@
             pointer-events: none;
         }
 
-        #title_static, #title_anim, #start_anim {
-            position: absolute;
-            left: 0;
-            top: 0;
-        }
-
         #title_static {
-            top: 288px; /* 15% of 1920 */
-            left: 270px; /* center assuming 540px width */
+            position: absolute;
+            top: 15%;
+            width: 100%;
+            display: flex;
+            justify-content: center;
             opacity: 0;
             transition: opacity 0.5s;
             z-index: 2;
         }
 
         #title_anim {
-            top: 288px;
-            left: 270px;
+            position: absolute;
+            top: 15%;
+            width: 100%;
+            display: flex;
+            justify-content: center;
             opacity: 0;
             z-index: 3;
         }
 
         #start_anim {
-            top: 538px; /* 28% of 1920 */
-            left: 0;
-            display: none;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
             z-index: 1;
         }
 
-        #start_anim img, #title_anim img, #title_static img {
-            width: 540px;
+        #start_anim img {
+            max-width: 100vw;
+            max-height: 100vh;
+            width: auto;
+            height: auto;
             image-rendering: pixelated;
         }
     </style>
 </head>
 <body>
     <div id="gate">
-        <h1>Was entsteht wenn Leere einigen muss?</h1>
-        <div class="answer" onclick="enterSite()">Eine Brücke.</div>
-        <div class="answer" onclick="enterSite()">Ein Mythos.</div>
+        <h1 id="gateText" style="opacity: 0; transition: opacity 0.4s ease;">Was entsteht wenn Leere einigen muss?</h1>
+        <div class="answer" onclick="enterSite()" style="opacity: 0; transition: opacity 0.4s ease;">Eine Brücke.</div>
+        <div class="answer" onclick="enterSite()" style="opacity: 0; transition: opacity 0.4s ease;">Ein Mythos.</div>
     </div>
 
-    <div id="stage">
-        <div id="title_static">
-            <img src="bilder/titel_s.png" width="540" />
-        </div>
+    <div id="title_static">
+        <img src="bilder/titel_s.png" width="540" />
+    </div>
 
-        <div id="title_anim">
-            <img id="titleAnim" src="animationen/titel_a.webp" width="540" />
-        </div>
+    <div id="title_anim">
+        <img id="titleAnim" src="animationen/titel_a.webp" width="540" />
+    </div>
 
-        <div id="start_anim">
-            <img id="startAnim" src="animationen/start_a.webp" />
-        </div>
+    <div id="start_anim" style="display: none;">
+        <img id="startAnim" src="animationen/start_a.webp" />
     </div>
 
     <audio id="intro" src="audio/intro.ogg"></audio>
     <audio id="loop" src="audio/loop.ogg" loop></audio>
 
     <script>
+        window.onload = () => {
+            setTimeout(() => {
+                document.querySelector('#gate h1').style.opacity = 1;
+                document.querySelectorAll('.answer').forEach(btn => btn.style.opacity = 1);
+            }, 500); // Verzögerung zur Schriftart-Ladung
+        }
+
         function enterSite() {
             const gate = document.getElementById("gate");
             gate.classList.add("hidden");
@@ -122,20 +121,18 @@
             setTimeout(() => {
                 document.getElementById("loop").play();
                 document.getElementById("title_static").style.opacity = 1;
-                document.getElementById("start_anim").style.display = 'block';
+                document.getElementById("start_anim").style.display = 'flex';
             }, 15250);
 
-            setTimeout(() => {
-                const interval = setInterval(() => {
-                    if (Math.random() > 0.6) {
-                        const titleAnim = document.getElementById("title_anim");
-                        titleAnim.style.opacity = 1;
-                        setTimeout(() => {
-                            titleAnim.style.opacity = 0;
-                        }, 600);
-                    }
-                }, 3000 + Math.random() * 27000);
-            }, 15250); // titel_a erst nach Loopstart
+            setInterval(() => {
+                if (Math.random() > 0.6) {
+                    const titleAnim = document.getElementById("title_anim");
+                    titleAnim.style.opacity = 1;
+                    setTimeout(() => {
+                        titleAnim.style.opacity = 0;
+                    }, 600);
+                }
+            }, 3000 + Math.random() * 27000); // alle 3–30 Sekunden
         }
     </script>
 </body>
