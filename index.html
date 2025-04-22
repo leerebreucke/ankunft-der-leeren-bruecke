@@ -74,15 +74,18 @@
 
         #start_anim {
             position: absolute;
-            top: 0%;
-            width: 100%;
-            display: flex;
-            justify-content: center;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: auto;
+            height: auto;
+            display: none;
             z-index: 1;
         }
 
         #start_anim img {
-            max-width: 48%;
+            width: 40vw;
+            max-width: 540px;
             height: auto;
             image-rendering: pixelated;
         }
@@ -103,7 +106,7 @@
         <img id="titleAnim" src="animationen/titel_a.webp" width="540" />
     </div>
 
-    <div id="start_anim" style="display: none;">
+    <div id="start_anim">
         <img id="startAnim" src="animationen/start_a.webp" />
     </div>
 
@@ -119,20 +122,18 @@
             setTimeout(() => {
                 document.getElementById("loop").play();
                 document.getElementById("title_static").style.opacity = 1;
-                document.getElementById("start_anim").style.display = 'flex';
+                document.getElementById("start_anim").style.display = 'block';
+            }, 15250);
 
-                // Titel-Animation nur ab diesem Zeitpunkt erlauben
-                setInterval(() => {
-                    if (Math.random() > 0.6) {
-                        const titleAnim = document.getElementById("title_anim");
-                        titleAnim.style.opacity = 1;
-                        setTimeout(() => {
-                            titleAnim.style.opacity = 0;
-                        }, 600);
-                    }
-                }, 3000 + Math.random() * 27000);
-
-            }, 15250); // 15.25 Sekunden
+            setInterval(() => {
+                if (Math.random() > 0.6) {
+                    const titleAnim = document.getElementById("title_anim");
+                    titleAnim.style.opacity = 1;
+                    setTimeout(() => {
+                        titleAnim.style.opacity = 0;
+                    }, 600);
+                }
+            }, 3000 + Math.random() * 27000); // alle 3–30 Sekunden
         }
     </script>
 </body>
