@@ -71,6 +71,21 @@
             opacity: 0;
             z-index: 3;
         }
+
+        #start_anim {
+            position: absolute;
+            top: 28%;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            z-index: 1;
+        }
+
+        #start_anim img {
+            max-width: 60%;
+            height: auto;
+            image-rendering: pixelated;
+        }
     </style>
 </head>
 <body>
@@ -88,22 +103,14 @@
         <img id="titleAnim" src="animationen/titel_a.webp" width="540" />
     </div>
 
-    <canvas id="canvas" width="1080" height="1920"></canvas>
+    <div id="start_anim" style="display: none;">
+        <img id="startAnim" src="animationen/start_a.webp" />
+    </div>
 
     <audio id="intro" src="audio/intro.ogg"></audio>
     <audio id="loop" src="audio/loop.ogg" loop></audio>
 
     <script>
-        let canvas = document.getElementById("canvas");
-        let ctx = canvas.getContext("2d");
-        let bgImage = new Image();
-        bgImage.src = "animationen/start_a.webp";
-
-        bgImage.onload = function () {
-            ctx.imageSmoothingEnabled = false;
-            ctx.drawImage(bgImage, 0, 0, canvas.width, canvas.height);
-        };
-
         function enterSite() {
             const gate = document.getElementById("gate");
             gate.classList.add("hidden");
@@ -112,6 +119,7 @@
             setTimeout(() => {
                 document.getElementById("loop").play();
                 document.getElementById("title_static").style.opacity = 1;
+                document.getElementById("start_anim").style.display = 'flex';
             }, 15250);
 
             setInterval(() => {
