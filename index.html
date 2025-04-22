@@ -1,184 +1,146 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta charset="UTF-8">
-  <title>leerebruecke</title>
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Jacquard+12&display=swap');
+    <meta charset="UTF-8">
+    <title>leerebruecke</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Jacquard+12&display=swap');
 
-    html, body {
-      margin: 0;
-      padding: 0;
-      background-color: #1e1b15;
-      overflow: hidden;
-      height: 100%;
-      font-family: 'Jacquard 12', cursive;
-    }
+        html, body {
+            margin: 0;
+            padding: 0;
+            background-color: #1e1b15;
+            overflow: hidden;
+            height: 100%;
+            font-family: 'Jacquard 12', cursive;
+        }
 
-    #gate {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      background-color: #1e1b15;
-      color: white;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      z-index: 100;
-      transition: opacity 0.8s ease;
-    }
+        #gate {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-color: #1e1b15;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+            transition: opacity 0.8s ease;
+        }
 
-    .answer {
-      margin: 1em;
-      cursor: pointer;
-      font-size: 1.8em;
-      transition: transform 0.2s;
-    }
+        .answer {
+            margin: 1em;
+            cursor: pointer;
+            font-size: 1.5em;
+            transition: transform 0.2s;
+        }
 
-    .answer:hover {
-      transform: scale(1.05);
-    }
+        .answer:hover {
+            transform: scale(1.05);
+        }
 
-    .hidden {
-      opacity: 0;
-      pointer-events: none;
-    }
+        .hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
 
-    #title_static, #title_anim {
-      position: absolute;
-      top: 160px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: auto;
-      z-index: 2;
-    }
+        #title_static {
+            position: absolute;
+            top: 10%;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.5s;
+            z-index: 2;
+        }
 
-    #title_static img, #title_anim img {
-      width: 810px;
-      height: auto;
-    }
+        #title_anim {
+            position: absolute;
+            top: 10%;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            opacity: 0;
+            z-index: 3;
+        }
 
-    #start_anim {
-      position: absolute;
-      top: 350px;
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 1;
-    }
+        #start_anim {
+            position: absolute;
+            top: 28%;
+            left: 50%;
+            transform: translateX(-50%);
+            max-height: 80%;
+            z-index: 1;
+        }
 
-    #start_anim img {
-      max-width: 1000px;
-      width: 100%;
-      height: auto;
-      image-rendering: pixelated;
-    }
-
-    .hover-text {
-      position: absolute;
-      left: 50%;
-      transform: translateX(-50%);
-      top: 900px;
-      width: 90%;
-      color: #ccc;
-      text-align: center;
-      font-size: 1.4em;
-      z-index: 4;
-      opacity: 0;
-      transition: opacity 0.4s ease;
-    }
-
-    .hover-text.visible {
-      opacity: 1;
-    }
-
-    .hitbox {
-      position: absolute;
-      z-index: 10;
-      width: 0;
-      height: 0;
-    }
-  </style>
+        #start_anim img {
+            height: 100%;
+            width: auto;
+            image-rendering: pixelated;
+        }
+    </style>
 </head>
 <body>
-  <div id="gate">
-    <h1 style="opacity: 0; transition: opacity 0.4s ease;" id="gate-question">Was entsteht wenn Leere einigen muss?</h1>
-    <div class="answer" onclick="enterSite()">Eine Brücke.</div>
-    <div class="answer" onclick="enterSite()">Ein Mythos.</div>
-  </div>
+    <div id="gate">
+        <h1 id="gate-question" style="opacity: 0; transition: opacity 0.5s 0.5s ease;">Was entsteht wenn Leere einigen muss?</h1>
+        <div class="answer" onclick="enterSite()">Eine Brücke.</div>
+        <div class="answer" onclick="enterSite()">Ein Mythos.</div>
+    </div>
 
-  <div id="title_static">
-    <img src="bilder/titel_s.png" />
-  </div>
-  <div id="title_anim">
-    <img id="titleAnim" src="animationen/titel_a.webp" />
-  </div>
-  <div id="start_anim" style="display: none;">
-    <img id="startAnim" src="animationen/start_a.webp" />
-  </div>
+    <div id="title_static">
+        <img src="bilder/titel_s.png" width="810" />
+    </div>
 
-  <div id="hoverText" class="hover-text"></div>
+    <div id="title_anim">
+        <img id="titleAnim" src="animationen/titel_a.webp" width="810" />
+    </div>
 
-  <!-- HITBOXEN -->
-  <div class="hitbox" id="hit_mukuga" style="top: 1070px; left: 470px; width: 140px; height: 200px;"></div>
-  <div class="hitbox" id="hit_rabenjunge" style="top: 1200px; left: 90px; width: 130px; height: 180px;"></div>
-  <div class="hitbox" id="hit_kalterwinter" style="top: 1280px; left: 730px; width: 120px; height: 190px;"></div>
-  <div class="hitbox" id="hit_kasperle" style="top: 1260px; left: 280px; width: 90px; height: 160px;"></div>
+    <div id="start_anim" style="display: none;">
+        <img id="startAnim" src="animationen/start_a.webp" />
+    </div>
 
-  <audio id="intro">
-    <source src="audio/intro.ogg" type="audio/ogg">
-    <source src="audio/intro.mp3" type="audio/mp3">
-  </audio>
-  <audio id="loop" loop>
-    <source src="audio/loop.ogg" type="audio/ogg">
-    <source src="audio/loop.mp3" type="audio/mp3">
-  </audio>
+    <audio id="intro">
+        <source src="audio/intro.ogg" type="audio/ogg">
+        <source src="audio/intro.mp3" type="audio/mpeg">
+    </audio>
 
-  <script>
-    const gate = document.getElementById("gate");
-    const gateQ = document.getElementById("gate-question");
-    const hoverText = document.getElementById("hoverText");
-    const texts = {
-      hit_mukuga: "Ein schweigsamer Krieger steht auf der Brücke und starrt dir in die Seele.",
-      hit_rabenjunge: "Ein Rabe auf dem Brückenzaun beobachtet dich mit Neugier.",
-      hit_kalterwinter: "Eine gespenstische Kälte steigt von unter der Brücke empor.",
-      hit_kasperle: "Ein stummes Kichern flackert aus dem Schatten des Kaspar."
-    };
+    <audio id="loop" loop>
+        <source src="audio/loop.ogg" type="audio/ogg">
+        <source src="audio/loop.mp3" type="audio/mpeg">
+    </audio>
 
-    function enterSite() {
-      gate.classList.add("hidden");
-      gateQ.style.opacity = 1;
-      document.getElementById("intro").play();
+    <script>
+        function enterSite() {
+            const gate = document.getElementById("gate");
+            const question = document.getElementById("gate-question");
+            gate.classList.add("hidden");
+            document.getElementById("intro").play();
 
-      setTimeout(() => {
-        document.getElementById("loop").play();
-        document.getElementById("title_static").style.display = 'block';
-        document.getElementById("start_anim").style.display = 'block';
-      }, 15250);
+            // Delay question fade-in to let font load
+            setTimeout(() => {
+                question.style.opacity = 1;
+            }, 500);
 
-      setInterval(() => {
-        if (Math.random() > 0.6) {
-          const titleAnim = document.getElementById("title_anim");
-          titleAnim.style.opacity = 1;
-          setTimeout(() => {
-            titleAnim.style.opacity = 0;
-          }, 600);
+            // Start loop and visuals after 15.25 seconds
+            setTimeout(() => {
+                document.getElementById("loop").play();
+                document.getElementById("title_static").style.opacity = 1;
+                document.getElementById("start_anim").style.display = 'block';
+
+                setInterval(() => {
+                    if (Math.random() > 0.6) {
+                        const titleAnim = document.getElementById("title_anim");
+                        titleAnim.style.opacity = 1;
+                        setTimeout(() => {
+                            titleAnim.style.opacity = 0;
+                        }, 600);
+                    }
+                }, 3000 + Math.random() * 27000); // alle 3–30 Sekunden
+
+            }, 15250);
         }
-      }, 3000 + Math.random() * 27000);
-    }
-
-    // Textanzeige bei Hover
-    const hitboxes = document.querySelectorAll(".hitbox");
-    hitboxes.forEach(box => {
-      box.addEventListener("mouseenter", () => {
-        hoverText.textContent = texts[box.id];
-        hoverText.classList.add("visible");
-      });
-      box.addEventListener("mouseleave", () => {
-        hoverText.textContent = "";
-        hoverText.classList.remove("visible");
-      });
-    });
-  </script>
+    </script>
 </body>
 </html>
